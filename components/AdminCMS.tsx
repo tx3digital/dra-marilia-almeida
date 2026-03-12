@@ -4,7 +4,7 @@ import { BlogPost, YouTubeVideo, SocialHighlight } from '../types';
 import { BLOG_POSTS as INITIAL_POSTS, YOUTUBE_VIDEOS as INITIAL_VIDEOS, SOCIAL_HIGHLIGHTS as INITIAL_SOCIAL } from '../constants';
 import {
   Plus, Trash2, Edit3, Save, ArrowLeft, Image as ImageIcon,
-  LayoutDashboard, FileText, Youtube, Search, Link as LinkIcon, Instagram, Music2
+  LayoutDashboard, FileText, Youtube, Search, Link as LinkIcon, Instagram, Music2, Sparkles
 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
@@ -280,6 +280,23 @@ const AdminCMS: React.FC<AdminCMSProps> = ({ onBack }) => {
     }
   };
 
+  const handleGenerateAIImage = () => {
+    if (!currentPost.title) return;
+    const keywords = `${currentPost.title} ${currentPost.category} medical health`.split(' ').join(',');
+    const aiImageUrl = `https://images.unsplash.com/photo-1576091160550-217359f4cf08?w=1000&auto=format&fit=crop&q=80&sig=${Date.now()}`;
+    // Using title keywords for a more "dynamic" feel in the future, for now a professional medical fallback
+    const professionalPool = [
+      'https://images.unsplash.com/photo-1576091160550-217359f4cf08', // Medicine
+      'https://images.unsplash.com/photo-1505751172876-fa1923c5c528', // Doctor
+      'https://images.unsplash.com/photo-1622253692010-333f2da6031d', // Health
+      'https://images.unsplash.com/photo-1579684385127-1ef15d508118', // Lab
+      'https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7', // Consultation
+      'https://images.unsplash.com/photo-1512621776951-a57141f2eefd'  // Healthy Food
+    ];
+    const randomImg = professionalPool[Math.floor(Math.random() * professionalPool.length)] + '?w=1000&auto=format&fit=crop&q=80';
+    setCurrentPost({ ...currentPost, imageUrl: randomImg });
+  };
+
   if (isAuthenticated === null) {
     return <div className="min-h-screen bg-[#f7f5f3] flex items-center justify-center"><div className="w-12 h-12 border-4 border-[#833c4e] border-t-transparent rounded-full animate-spin"></div></div>;
   }
@@ -324,8 +341,18 @@ const AdminCMS: React.FC<AdminCMSProps> = ({ onBack }) => {
                 <textarea required rows={10} value={currentPost.content || ''} onChange={e => setCurrentPost({ ...currentPost, content: e.target.value })} className="w-full px-6 py-4 rounded-xl border border-[#e0d5c7] focus:border-[#833c4e] outline-none font-light text-gray-600 bg-white" />
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
-                <div className="space-y-2">
-                  <label className="flex items-center space-x-2 text-[9px] font-black uppercase tracking-widest text-[#a89b92] ml-1"><ImageIcon size={12} /><span>URL da Imagem</span></label>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <label className="flex items-center space-x-2 text-[9px] font-black uppercase tracking-widest text-[#a89b92] ml-1"><ImageIcon size={12} /><span>URL da Imagem</span></label>
+                    <button
+                      type="button"
+                      onClick={handleGenerateAIImage}
+                      className="flex items-center space-x-2 text-[9px] font-black uppercase tracking-widest text-[#833c4e] hover:bg-[#833c4e]/5 px-3 py-1.5 rounded-lg transition-all border border-[#833c4e]/20"
+                    >
+                      <Sparkles size={12} />
+                      <span>Sugerir Capa</span>
+                    </button>
+                  </div>
                   <input required type="url" value={currentPost.imageUrl || ''} onChange={e => setCurrentPost({ ...currentPost, imageUrl: e.target.value })} className="w-full px-6 py-4 rounded-xl border border-[#e0d5c7] outline-none font-mono text-xs bg-white" />
                 </div>
                 <div className="space-y-2">

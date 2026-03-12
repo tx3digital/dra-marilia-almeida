@@ -113,26 +113,6 @@ const BlogPage: React.FC<BlogPageProps> = ({ onBack }) => {
                 {selectedPost.content.split('\n').map((para, i) => (
                   para.trim() && <p key={i}>{para}</p>
                 ))}
-
-                {selectedPost.instagramEmbedUrl && embedUrl && (
-                  <div className="my-16 flex flex-col items-center">
-                    <div className="flex items-center space-x-3 mb-6 text-[#833c4e]">
-                      <Instagram size={20} />
-                      <span className="font-black uppercase tracking-widest text-[9px]">Confira no Instagram</span>
-                    </div>
-
-                    <div className="w-full max-w-[540px] border border-[#e0d5c7]/30 rounded-[2.5rem] overflow-hidden shadow-2xl bg-white min-h-[640px] relative">
-                      <iframe key={embedUrl} src={embedUrl} width="100%" height="640" frameBorder="0" scrolling="no" allowTransparency={true} className="w-full relative z-10"></iframe>
-                      <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center bg-gray-50 -z-0">
-                        <Instagram size={40} className="text-[#e0d5c7] mb-4 animate-pulse" />
-                        <a href={selectedPost.instagramEmbedUrl} target="_blank" rel="noopener noreferrer" className="text-[#833c4e] text-[10px] font-black uppercase tracking-widest flex items-center space-x-2 border-b border-[#833c4e]/30 pb-1">
-                          <span>Abrir post original</span>
-                          <ExternalLink size={12} />
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                )}
               </div>
             </div>
           </article>
