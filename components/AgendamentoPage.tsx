@@ -54,21 +54,21 @@ Estou ciente que o atendimento é exclusivamente particular e que suplementaçã
     {
       id: 'nivel-1',
       title: 'ESSENCIAL',
-      price: 'R$ 1.000 — R$ 2.000',
+      price: 'R$ 450 — R$ 1.000',
       icon: DollarSign,
       color: 'text-gray-400'
     },
     {
       id: 'nivel-2',
       title: 'AVANÇADO',
-      price: 'R$ 1.000 — R$ 4.000',
+      price: 'R$ 1.000 — R$ 1.500',
       icon: Zap,
       color: 'text-[#833c4e]'
     },
     {
       id: 'nivel-3',
       title: 'ALTA PERFORMANCE',
-      price: 'Acima de R$ 5.000',
+      price: 'Acima de R$ 2.000',
       icon: Crown,
       color: 'text-yellow-600'
     }

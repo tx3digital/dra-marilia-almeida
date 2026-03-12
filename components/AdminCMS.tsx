@@ -4,7 +4,7 @@ import { BlogPost, YouTubeVideo, SocialHighlight } from '../types';
 import { BLOG_POSTS as INITIAL_POSTS, YOUTUBE_VIDEOS as INITIAL_VIDEOS, SOCIAL_HIGHLIGHTS as INITIAL_SOCIAL } from '../constants';
 import {
   Plus, Trash2, Edit3, Save, ArrowLeft, Image as ImageIcon,
-  LayoutDashboard, FileText, Youtube, Search, Link as LinkIcon, Instagram, Music2, Sparkles
+  LayoutDashboard, FileText, Youtube, Search, Link as LinkIcon, Instagram, Music2, Upload, Loader2
 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
@@ -96,6 +96,7 @@ const AdminCMS: React.FC<AdminCMSProps> = ({ onBack }) => {
   const [videos, setVideos] = useState<YouTubeVideo[]>([]);
   const [socials, setSocials] = useState<SocialHighlight[]>([]);
   const [loading, setLoading] = useState(true);
+  const [uploading, setUploading] = useState(false);
 
   const [isEditing, setIsEditing] = useState(false);
   const [editType, setEditType] = useState<AdminTab>('Artigos');
@@ -259,6 +260,39 @@ const AdminCMS: React.FC<AdminCMSProps> = ({ onBack }) => {
     setIsEditing(true);
   };
 
+  const handleUploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !supabase) return;
+
+    setUploading(true);
+    try {
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`;
+      const filePath = `blog-covers/${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('blog-media')
+        .upload(filePath, file);
+
+      if (uploadError) {
+        if (uploadError.message.includes('bucket not found')) {
+          alert('Erro: O bucket "blog-media" não existe no seu Supabase Storage. Crie-o para habilitar o upload.');
+        }
+        throw uploadError;
+      }
+
+      const { data: { publicUrl } } = supabase.storage
+        .from('blog-media')
+        .getPublicUrl(filePath);
+
+      setCurrentPost({ ...currentPost, imageUrl: publicUrl });
+    } catch (error) {
+      console.error('Erro no upload:', error);
+    } finally {
+      setUploading(false);
+    }
+  };
+
   const handleSavePost = async (e: React.FormEvent) => {
     e.preventDefault();
     const postToSave = {
@@ -278,23 +312,6 @@ const AdminCMS: React.FC<AdminCMSProps> = ({ onBack }) => {
     } else {
       console.error("Erro ao salvar post", error);
     }
-  };
-
-  const handleGenerateAIImage = () => {
-    if (!currentPost.title) return;
-    const keywords = `${currentPost.title} ${currentPost.category} medical health`.split(' ').join(',');
-    const aiImageUrl = `https://images.unsplash.com/photo-1576091160550-217359f4cf08?w=1000&auto=format&fit=crop&q=80&sig=${Date.now()}`;
-    // Using title keywords for a more "dynamic" feel in the future, for now a professional medical fallback
-    const professionalPool = [
-      'https://images.unsplash.com/photo-1576091160550-217359f4cf08', // Medicine
-      'https://images.unsplash.com/photo-1505751172876-fa1923c5c528', // Doctor
-      'https://images.unsplash.com/photo-1622253692010-333f2da6031d', // Health
-      'https://images.unsplash.com/photo-1579684385127-1ef15d508118', // Lab
-      'https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7', // Consultation
-      'https://images.unsplash.com/photo-1512621776951-a57141f2eefd'  // Healthy Food
-    ];
-    const randomImg = professionalPool[Math.floor(Math.random() * professionalPool.length)] + '?w=1000&auto=format&fit=crop&q=80';
-    setCurrentPost({ ...currentPost, imageUrl: randomImg });
   };
 
   if (isAuthenticated === null) {
@@ -343,17 +360,42 @@ const AdminCMS: React.FC<AdminCMSProps> = ({ onBack }) => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <label className="flex items-center space-x-2 text-[9px] font-black uppercase tracking-widest text-[#a89b92] ml-1"><ImageIcon size={12} /><span>URL da Imagem</span></label>
-                    <button
-                      type="button"
-                      onClick={handleGenerateAIImage}
-                      className="flex items-center space-x-2 text-[9px] font-black uppercase tracking-widest text-[#833c4e] hover:bg-[#833c4e]/5 px-3 py-1.5 rounded-lg transition-all border border-[#833c4e]/20"
-                    >
-                      <Sparkles size={12} />
-                      <span>Sugerir Capa</span>
-                    </button>
+                    <label className="flex items-center space-x-2 text-[9px] font-black uppercase tracking-widest text-[#a89b92] ml-1"><ImageIcon size={12} /><span>Capa do Artigo</span></label>
+                    <div className="relative">
+                      <input
+                        type="file"
+                        id="image-upload"
+                        className="hidden"
+                        accept="image/*"
+                        onChange={handleUploadImage}
+                        disabled={uploading}
+                      />
+                      <label
+                        htmlFor="image-upload"
+                        className={`flex items-center space-x-2 text-[9px] font-black uppercase tracking-widest ${uploading ? 'text-gray-400' : 'text-[#833c4e] hover:bg-[#833c4e]/5'} px-3 py-1.5 rounded-lg transition-all border border-[#833c4e]/20 cursor-pointer`}
+                      >
+                        {uploading ? (
+                          <Loader2 size={12} className="animate-spin" />
+                        ) : (
+                          <Upload size={12} />
+                        )}
+                        <span>{uploading ? 'Enviando...' : 'Fazer Upload'}</span>
+                      </label>
+                    </div>
                   </div>
-                  <input required type="url" value={currentPost.imageUrl || ''} onChange={e => setCurrentPost({ ...currentPost, imageUrl: e.target.value })} className="w-full px-6 py-4 rounded-xl border border-[#e0d5c7] outline-none font-mono text-xs bg-white" />
+                  <input
+                    required
+                    type="url"
+                    placeholder="URL da imagem ou faça upload..."
+                    value={currentPost.imageUrl || ''}
+                    onChange={e => setCurrentPost({ ...currentPost, imageUrl: e.target.value })}
+                    className="w-full px-6 py-4 rounded-xl border border-[#e0d5c7] outline-none font-mono text-xs bg-white"
+                  />
+                  {currentPost.imageUrl && (
+                    <div className="mt-2 relative group aspect-video rounded-xl overflow-hidden border border-[#e0d5c7]">
+                      <img src={currentPost.imageUrl} className="w-full h-full object-cover" alt="Preview" />
+                    </div>
+                  )}
                 </div>
                 <div className="space-y-2">
                   <label className="flex items-center space-x-2 text-[9px] font-black uppercase tracking-widest text-[#a89b92] ml-1"><LinkIcon size={12} /><span>Link Instagram (Opcional)</span></label>
@@ -414,7 +456,6 @@ const AdminCMS: React.FC<AdminCMSProps> = ({ onBack }) => {
                 <div className="space-y-2">
                   <label className="block text-[9px] font-black uppercase tracking-widest text-[#a89b92] ml-1">URL da Miniatura</label>
                   <input required type="url" value={currentSocial.thumbnail || ''} onChange={e => setCurrentSocial({ ...currentSocial, thumbnail: e.target.value })} className="w-full px-6 py-4 rounded-xl border border-[#e0d5c7] focus:border-[#833c4e] outline-none font-mono text-xs bg-white" />
-                  <p className="text-[8px] text-[#833c4e] font-bold uppercase tracking-wider ml-1 mt-1">* Use um link direto de imagem (.jpg, .png)</p>
                 </div>
               </div>
               <button type="submit" className="w-full bg-[#833c4e] text-white py-6 rounded-2xl font-black uppercase tracking-widest text-xs flex items-center justify-center space-x-3 shadow-xl mt-10">
@@ -478,11 +519,7 @@ const AdminCMS: React.FC<AdminCMSProps> = ({ onBack }) => {
                     <tr key={post.id} className="hover:bg-[#f7f5f3]/30 transition-colors">
                       <td className="px-8 py-6">
                         <div className="flex items-center space-x-4">
-                          <img
-                            src={post.imageUrl}
-                            onError={(e) => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1576091160550-217359f4cf08?q=80&w=100&auto=format' }}
-                            className="w-12 h-12 rounded-lg object-cover border border-gray-100"
-                          />
+                          <img src={post.imageUrl} className="w-12 h-12 rounded-lg object-cover border border-gray-100" />
                           <div className="font-black text-gray-900 uppercase tracking-tight text-sm">{post.title}</div>
                         </div>
                       </td>
@@ -547,11 +584,7 @@ const AdminCMS: React.FC<AdminCMSProps> = ({ onBack }) => {
                     <tr key={social.id} className="hover:bg-[#f7f5f3]/30 transition-colors">
                       <td className="px-8 py-6">
                         <div className="flex items-center space-x-4">
-                          <img
-                            src={social.thumbnail}
-                            onError={(e) => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1541781719201-68bca29b5ce3?q=80&w=100&auto=format' }}
-                            className="w-12 h-16 rounded-lg object-cover border border-gray-100"
-                          />
+                          <img src={social.thumbnail} className="w-12 h-16 rounded-lg object-cover border border-gray-100" />
                           <div className="font-black text-gray-900 uppercase tracking-tight text-sm">{social.title}</div>
                         </div>
                       </td>
