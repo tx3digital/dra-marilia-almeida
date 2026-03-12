@@ -87,7 +87,11 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               </button>
               <a href="#" className="hover:text-white transition-colors">Privacidade</a>
             </div>
-            <span className="opacity-20">© 2024 Dra. Marília Almeida.</span>
+            <span className="opacity-30 flex items-center gap-2">
+              © 2026 Dra. Marília Almeida.
+              <span className="opacity-50">|</span>
+              Feito por <a href="https://tx3.digital" target="_blank" rel="noopener noreferrer" className="hover:text-white hover:underline transition-all">TX3.digital</a>
+            </span>
           </div>
         </div>
       </div>
