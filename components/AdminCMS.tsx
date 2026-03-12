@@ -387,6 +387,7 @@ const AdminCMS: React.FC<AdminCMSProps> = ({ onBack }) => {
                 <div className="space-y-2">
                   <label className="block text-[9px] font-black uppercase tracking-widest text-[#a89b92] ml-1">URL da Miniatura</label>
                   <input required type="url" value={currentSocial.thumbnail || ''} onChange={e => setCurrentSocial({ ...currentSocial, thumbnail: e.target.value })} className="w-full px-6 py-4 rounded-xl border border-[#e0d5c7] focus:border-[#833c4e] outline-none font-mono text-xs bg-white" />
+                  <p className="text-[8px] text-[#833c4e] font-bold uppercase tracking-wider ml-1 mt-1">* Use um link direto de imagem (.jpg, .png)</p>
                 </div>
               </div>
               <button type="submit" className="w-full bg-[#833c4e] text-white py-6 rounded-2xl font-black uppercase tracking-widest text-xs flex items-center justify-center space-x-3 shadow-xl mt-10">
@@ -450,7 +451,11 @@ const AdminCMS: React.FC<AdminCMSProps> = ({ onBack }) => {
                     <tr key={post.id} className="hover:bg-[#f7f5f3]/30 transition-colors">
                       <td className="px-8 py-6">
                         <div className="flex items-center space-x-4">
-                          <img src={post.imageUrl} className="w-12 h-12 rounded-lg object-cover border border-gray-100" />
+                          <img
+                            src={post.imageUrl}
+                            onError={(e) => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1576091160550-217359f4cf08?q=80&w=100&auto=format' }}
+                            className="w-12 h-12 rounded-lg object-cover border border-gray-100"
+                          />
                           <div className="font-black text-gray-900 uppercase tracking-tight text-sm">{post.title}</div>
                         </div>
                       </td>
@@ -515,7 +520,11 @@ const AdminCMS: React.FC<AdminCMSProps> = ({ onBack }) => {
                     <tr key={social.id} className="hover:bg-[#f7f5f3]/30 transition-colors">
                       <td className="px-8 py-6">
                         <div className="flex items-center space-x-4">
-                          <img src={social.thumbnail} className="w-12 h-16 rounded-lg object-cover border border-gray-100" />
+                          <img
+                            src={social.thumbnail}
+                            onError={(e) => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1541781719201-68bca29b5ce3?q=80&w=100&auto=format' }}
+                            className="w-12 h-16 rounded-lg object-cover border border-gray-100"
+                          />
                           <div className="font-black text-gray-900 uppercase tracking-tight text-sm">{social.title}</div>
                         </div>
                       </td>

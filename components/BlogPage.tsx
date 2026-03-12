@@ -182,8 +182,15 @@ const BlogPage: React.FC<BlogPageProps> = ({ onBack }) => {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                 {posts.map((post) => (
                   <div key={post.id} onClick={() => setSelectedPost(post)} className="group cursor-pointer bg-white rounded-[2.5rem] overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 border border-[#e0d5c7]/20 flex flex-col">
-                    <div className="aspect-[16/10] overflow-hidden relative">
-                      <img src={post.imageUrl} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                    <div className="aspect-[16/10] overflow-hidden relative bg-[#f7f5f3]">
+                      <img
+                        src={post.imageUrl}
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.src = 'https://images.unsplash.com/photo-1576091160550-217359f4cf08?q=80&w=1000&auto=format';
+                        }}
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      />
                       <div className="absolute top-6 left-6">
                         <span className="bg-[#833c4e] text-white px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest">{post.category}</span>
                       </div>
@@ -308,7 +315,14 @@ const BlogPage: React.FC<BlogPageProps> = ({ onBack }) => {
                         target="_blank"
                         className="group block relative aspect-[9/12] rounded-[2.5rem] overflow-hidden shadow-sm border border-[#e0d5c7]/10"
                       >
-                        <img src={social.thumbnail} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                        <img
+                          src={social.thumbnail}
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            target.src = 'https://images.unsplash.com/photo-1541781719201-68bca29b5ce3?q=80&w=1000&auto=format';
+                          }}
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity"></div>
                         <div className="absolute top-6 right-6">
                           <div className={`p-2 rounded-full backdrop-blur-md border border-white/20 text-white ${social.platform === 'instagram' ? 'bg-[#833c4e]/40' : 'bg-black/40'}`}>
