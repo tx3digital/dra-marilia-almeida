@@ -260,7 +260,7 @@ const AdminCMS: React.FC<AdminCMSProps> = ({ onBack }) => {
     setIsEditing(true);
   };
 
-  const handleUploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleUploadImage = async (e: React.ChangeEvent<HTMLInputElement>, type: 'blog' | 'social') => {
     const file = e.target.files?.[0];
     if (!file || !supabase) return;
 
@@ -268,24 +268,29 @@ const AdminCMS: React.FC<AdminCMSProps> = ({ onBack }) => {
     try {
       const fileExt = file.name.split('.').pop();
       const fileName = `${Math.random().toString(36).substring(2)}-${Date.now()}.${fileExt}`;
-      const filePath = `blog-covers/${fileName}`;
+      const bucketName = 'blog-media';
+      const filePath = `${type === 'blog' ? 'blog-covers' : 'social-thumbs'}/${fileName}`;
 
       const { error: uploadError } = await supabase.storage
-        .from('blog-media')
+        .from(bucketName)
         .upload(filePath, file);
 
       if (uploadError) {
         if (uploadError.message.includes('bucket not found')) {
-          alert('Erro: O bucket "blog-media" não existe no seu Supabase Storage. Crie-o para habilitar o upload.');
+          alert(`Erro: O bucket "${bucketName}" não existe no seu Supabase Storage. Crie-o para habilitar o upload.`);
         }
         throw uploadError;
       }
 
       const { data: { publicUrl } } = supabase.storage
-        .from('blog-media')
+        .from(bucketName)
         .getPublicUrl(filePath);
 
-      setCurrentPost({ ...currentPost, imageUrl: publicUrl });
+      if (type === 'blog') {
+        setCurrentPost({ ...currentPost, imageUrl: publicUrl });
+      } else {
+        setCurrentSocial({ ...currentSocial, thumbnail: publicUrl });
+      }
     } catch (error) {
       console.error('Erro no upload:', error);
     } finally {
@@ -385,14 +390,14 @@ const AdminCMS: React.FC<AdminCMSProps> = ({ onBack }) => {
                       </button>
                       <input
                         type="file"
-                        id="image-upload"
+                        id="blog-upload"
                         className="hidden"
                         accept="image/*"
-                        onChange={handleUploadImage}
+                        onChange={(e) => handleUploadImage(e, 'blog')}
                         disabled={uploading}
                       />
                       <label
-                        htmlFor="image-upload"
+                        htmlFor="blog-upload"
                         className={`flex items-center space-x-2 text-[9px] font-black uppercase tracking-widest ${uploading ? 'text-gray-400' : 'text-[#833c4e] hover:bg-[#833c4e]/5'} px-3 py-1.5 rounded-lg transition-all border border-[#833c4e]/20 cursor-pointer`}
                       >
                         {uploading ? (
@@ -474,9 +479,37 @@ const AdminCMS: React.FC<AdminCMSProps> = ({ onBack }) => {
                   <label className="block text-[9px] font-black uppercase tracking-widest text-[#a89b92] ml-1">Link Direto do Post</label>
                   <input required type="url" value={currentSocial.url || ''} onChange={e => setCurrentSocial({ ...currentSocial, url: e.target.value })} className="w-full px-6 py-4 rounded-xl border border-[#e0d5c7] focus:border-[#833c4e] outline-none font-mono text-xs bg-white" />
                 </div>
-                <div className="space-y-2">
-                  <label className="block text-[9px] font-black uppercase tracking-widest text-[#a89b92] ml-1">URL da Miniatura</label>
-                  <input required type="url" value={currentSocial.thumbnail || ''} onChange={e => setCurrentSocial({ ...currentSocial, thumbnail: e.target.value })} className="w-full px-6 py-4 rounded-xl border border-[#e0d5c7] focus:border-[#833c4e] outline-none font-mono text-xs bg-white" />
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <label className="block text-[9px] font-black uppercase tracking-widest text-[#a89b92] ml-1">Capa da Miniatura</label>
+                    <div className="relative">
+                      <input
+                        type="file"
+                        id="social-upload"
+                        className="hidden"
+                        accept="image/*"
+                        onChange={(e) => handleUploadImage(e, 'social')}
+                        disabled={uploading}
+                      />
+                      <label
+                        htmlFor="social-upload"
+                        className={`flex items-center space-x-2 text-[9px] font-black uppercase tracking-widest ${uploading ? 'text-gray-400' : 'text-[#833c4e] hover:bg-[#833c4e]/5'} px-3 py-1.5 rounded-lg transition-all border border-[#833c4e]/20 cursor-pointer`}
+                      >
+                        {uploading ? (
+                          <Loader2 size={12} className="animate-spin" />
+                        ) : (
+                          <Upload size={12} />
+                        )}
+                        <span>{uploading ? 'Enviando...' : 'Fazer Upload'}</span>
+                      </label>
+                    </div>
+                  </div>
+                  <input required type="url" placeholder="URL da miniatura ou faça upload..." value={currentSocial.thumbnail || ''} onChange={e => setCurrentSocial({ ...currentSocial, thumbnail: e.target.value })} className="w-full px-6 py-4 rounded-xl border border-[#e0d5c7] focus:border-[#833c4e] outline-none font-mono text-xs bg-white" />
+                  {currentSocial.thumbnail && (
+                    <div className="mt-2 relative group aspect-[9/12] max-w-[120px] rounded-xl overflow-hidden border border-[#e0d5c7]">
+                      <img src={currentSocial.thumbnail} className="w-full h-full object-cover" alt="Preview Social" />
+                    </div>
+                  )}
                 </div>
               </div>
               <button type="submit" className="w-full bg-[#833c4e] text-white py-6 rounded-2xl font-black uppercase tracking-widest text-xs flex items-center justify-center space-x-3 shadow-xl mt-10">
