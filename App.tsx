@@ -50,7 +50,7 @@ function App() {
 
   if (view === 'agendamento') {
     return (
-      <div className="min-h-screen bg-[#f7f5f3]">
+      <div className="min-h-screen bg-[#f7f5f3] overflow-x-hidden">
         <Navbar onNavigate={handleNavigate} onAgendar={navigateToAgendamento} isInternal />
         <AgendamentoPage onBack={navigateToLanding} />
         <Footer onNavigate={handleNavigate} />
@@ -61,7 +61,7 @@ function App() {
 
   if (view === 'blog') {
     return (
-      <div className="min-h-screen bg-[#f7f5f3]">
+      <div className="min-h-screen bg-[#f7f5f3] overflow-x-hidden">
         <Navbar onNavigate={handleNavigate} onAgendar={navigateToAgendamento} isInternal />
         <BlogPage onBack={navigateToLanding} />
         <Footer onNavigate={handleNavigate} />
@@ -72,7 +72,7 @@ function App() {
 
   if (view === 'atendimento') {
     return (
-      <div className="min-h-screen bg-[#f7f5f3]">
+      <div className="min-h-screen bg-[#f7f5f3] overflow-x-hidden">
         <Navbar onNavigate={handleNavigate} onAgendar={navigateToAgendamento} isInternal />
         <AtendimentoPage onBack={navigateToLanding} onAgendar={navigateToAgendamento} />
         <Footer onNavigate={handleNavigate} />
@@ -82,7 +82,7 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-[#f7f5f3]">
+    <div className="min-h-screen bg-[#f7f5f3] overflow-x-hidden">
       <Navbar onNavigate={handleNavigate} onAgendar={navigateToAgendamento} />
 
       <main>
