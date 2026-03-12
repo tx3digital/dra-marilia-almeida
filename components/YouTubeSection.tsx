@@ -35,8 +35,8 @@ const YouTubeSection: React.FC = () => {
         // Prepare the 3 videos list:
         // 1. Featured video (if exists)
         // 2. The most recent non-featured videos to fill 3 slots
-        const featured = data.find(v => v.is_featured);
-        const others = data.filter(v => v.id !== featured?.id);
+        const featured = data.find((v: YouTubeVideo) => v.is_featured);
+        const others = data.filter((v: YouTubeVideo) => v.id !== featured?.id);
 
         const combined = featured
           ? [featured, ...others.slice(0, 2)]
