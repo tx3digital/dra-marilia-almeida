@@ -84,22 +84,22 @@ function App() {
   return (
     <div className="min-h-screen bg-[#f7f5f3]">
       <Navbar onNavigate={handleNavigate} onAgendar={navigateToAgendamento} />
-      
+
       <main>
         <Hero onAgendar={navigateToAgendamento} />
         <AboutSection />
         <div id="sobre"></div>
-        
+
         {/* Seção Especialidades movida para cá, entre Sobre e Stories */}
         <SpecialtiesGrid />
-        
+
         <InstagramStories />
         <MediaSection />
         <div id="atendimento"></div>
         <AtendimentoSection onAgendar={navigateToAtendimento} />
         <YouTubeSection />
-        
-        <section className="py-32 bg-[#e0d5c7]/20">
+
+        <section className="py-16 bg-[#e0d5c7]/20">
           <div className="max-w-7xl mx-auto px-4 text-center">
             <h2 className="text-3xl md:text-5xl font-brand mb-12 italic text-gray-800 leading-relaxed max-w-4xl mx-auto">
               "Cuidar da saúde não é apenas tratar doenças, é cultivar autonomia para viver plenamente cada fase da vida."

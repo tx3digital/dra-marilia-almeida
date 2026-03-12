@@ -91,7 +91,7 @@ const Hero: React.FC<HeroProps> = ({ onAgendar }) => {
       {showVideo && (
         <div className="fixed inset-0 z-[100] bg-black/98 flex items-center justify-center p-4 md:p-8 animate-in fade-in duration-300">
           <button
-            className="absolute top-8 right-8 text-white hover:rotate-90 transition-transform duration-300 p-2 z-[110]"
+            className="absolute top-8 right-8 text-black hover:rotate-90 transition-transform duration-300 p-2 z-[110]"
             onClick={() => setShowVideo(false)}
           >
             <X size={40} />

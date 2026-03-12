@@ -57,7 +57,7 @@ const YouTubeSection: React.FC = () => {
   if (loading) return null;
 
   return (
-    <section className="py-24 bg-black text-white overflow-hidden">
+    <section className="py-12 bg-black text-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row items-center justify-between mb-16">
           <div className="max-w-2xl text-center md:text-left mb-8 md:mb-0">
@@ -113,7 +113,7 @@ const YouTubeSection: React.FC = () => {
 
       {selectedVideo && (
         <div className="fixed inset-0 z-[200] bg-black/98 flex items-center justify-center p-4 md:p-8 animate-in fade-in duration-300">
-          <button className="absolute top-8 right-8 text-white p-2 z-[210] hover:rotate-90 transition-transform" onClick={() => setSelectedVideo(null)}><X size={40} /></button>
+          <button className="absolute top-8 right-8 text-black p-2 z-[210] hover:rotate-90 transition-transform" onClick={() => setSelectedVideo(null)}><X size={40} /></button>
           <div className={`w-full ${selectedVideo.type === 'shorts' ? 'max-w-[400px] aspect-[9/16]' : 'max-w-5xl aspect-video'} bg-black rounded-[2rem] overflow-hidden shadow-2xl border border-white/10 relative`}>
             <iframe className="w-full h-full" src={`https://www.youtube.com/embed/${selectedVideo.id}?autoplay=1`} frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
           </div>

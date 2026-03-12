@@ -9,7 +9,7 @@ const MediaSection: React.FC = () => {
   ];
 
   return (
-    <section className="py-24 bg-white overflow-hidden" id="midia">
+    <section className="py-12 bg-white overflow-hidden" id="midia">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <div className="flex items-center justify-center space-x-2 text-[#833c4e] mb-4">
@@ -35,19 +35,6 @@ const MediaSection: React.FC = () => {
           ))}
         </div>
 
-        {/* Media Logos Placeholder Section */}
-        <div className="relative py-12 border-y border-[#e0d5c7]/20">
-          <div className="text-center mb-10">
-            <p className="text-[10px] uppercase tracking-[0.3em] font-black text-[#a89b92]">Como visto em</p>
-          </div>
-          <div className="flex flex-wrap justify-center items-center gap-12 md:gap-24 opacity-40 grayscale hover:grayscale-0 transition-all">
-             <div className="text-2xl font-black text-gray-400 uppercase tracking-tighter">Portal G1</div>
-             <div className="text-2xl font-black text-gray-400 uppercase tracking-tighter">TV Gazeta</div>
-             <div className="text-2xl font-black text-gray-400 uppercase tracking-tighter">Revista Saúde</div>
-             <div className="text-2xl font-black text-gray-400 uppercase tracking-tighter">Folha de SP</div>
-             <div className="text-2xl font-black text-gray-400 uppercase tracking-tighter">Estadão</div>
-          </div>
-        </div>
       </div>
     </section>
   );

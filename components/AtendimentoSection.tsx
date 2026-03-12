@@ -8,9 +8,9 @@ interface AtendimentoSectionProps {
 
 const AtendimentoSection: React.FC<AtendimentoSectionProps> = ({ onAgendar }) => {
   return (
-    <section className="py-32 bg-white" id="atendimento">
+    <section className="py-16 bg-white" id="atendimento">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-24">
+        <div className="text-center mb-12">
           <span className="text-[#a89b92] font-extrabold uppercase tracking-[0.5em] text-[10px] mb-4 block">Flexibilidade & Excelência</span>
           <h2 className="text-4xl md:text-6xl font-extrabold text-gray-900 mb-8 tracking-tight uppercase">Sua Saúde, Seu Momento</h2>
           <p className="text-[#a89b92] max-w-2xl mx-auto text-lg font-light leading-relaxed text-refined">

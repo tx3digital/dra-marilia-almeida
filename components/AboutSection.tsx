@@ -4,7 +4,7 @@ import { Award, GraduationCap, Heart, Youtube } from 'lucide-react';
 
 const AboutSection: React.FC = () => {
   return (
-    <section className="py-24 bg-[#f7f5f3] relative overflow-hidden" id="sobre">
+    <section className="py-12 bg-[#f7f5f3] relative overflow-hidden" id="sobre">
       <div className="absolute top-20 left-0 text-[8rem] font-black text-[#a89b92] opacity-[0.03] select-none pointer-events-none whitespace-nowrap tracking-tighter uppercase">
         Marília Almeida
       </div>
