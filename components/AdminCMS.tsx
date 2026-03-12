@@ -4,7 +4,7 @@ import { BlogPost, YouTubeVideo, SocialHighlight } from '../types';
 import { BLOG_POSTS as INITIAL_POSTS, YOUTUBE_VIDEOS as INITIAL_VIDEOS, SOCIAL_HIGHLIGHTS as INITIAL_SOCIAL } from '../constants';
 import {
   Plus, Trash2, Edit3, Save, ArrowLeft, Image as ImageIcon,
-  LayoutDashboard, FileText, Youtube, Search, Link as LinkIcon, Instagram, Music2, Upload, Loader2
+  LayoutDashboard, FileText, Youtube, Search, Link as LinkIcon, Instagram, Music2, Upload, Loader2, Sparkles
 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
@@ -292,6 +292,19 @@ const AdminCMS: React.FC<AdminCMSProps> = ({ onBack }) => {
       setUploading(false);
     }
   };
+  const handleGenerateAIImage = () => {
+    if (!currentPost.title) return;
+    const professionalPool = [
+      'https://images.unsplash.com/photo-1576091160550-217359f4cf08', // Medicine
+      'https://images.unsplash.com/photo-1505751172876-fa1923c5c528', // Doctor
+      'https://images.unsplash.com/photo-1622253692010-333f2da6031d', // Health
+      'https://images.unsplash.com/photo-1579684385127-1ef15d508118', // Lab
+      'https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7', // Consultation
+      'https://images.unsplash.com/photo-1512621776951-a57141f2eefd'  // Healthy Food
+    ];
+    const randomImg = professionalPool[Math.floor(Math.random() * professionalPool.length)] + '?w=1000&auto=format&fit=crop&q=80';
+    setCurrentPost({ ...currentPost, imageUrl: randomImg });
+  };
 
   const handleSavePost = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -361,7 +374,15 @@ const AdminCMS: React.FC<AdminCMSProps> = ({ onBack }) => {
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <label className="flex items-center space-x-2 text-[9px] font-black uppercase tracking-widest text-[#a89b92] ml-1"><ImageIcon size={12} /><span>Capa do Artigo</span></label>
-                    <div className="relative">
+                    <div className="flex items-center space-x-2">
+                      <button
+                        type="button"
+                        onClick={handleGenerateAIImage}
+                        className="flex items-center space-x-2 text-[9px] font-black uppercase tracking-widest text-[#833c4e] hover:bg-[#833c4e]/5 px-3 py-1.5 rounded-lg transition-all border border-[#833c4e]/20"
+                      >
+                        <Sparkles size={12} />
+                        <span>Sugerir Capa</span>
+                      </button>
                       <input
                         type="file"
                         id="image-upload"
