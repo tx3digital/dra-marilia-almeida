@@ -55,7 +55,9 @@ const BlogPage: React.FC<BlogPageProps> = ({ onBack }) => {
     }
   };
 
-  const podcastId = videos.length > 0 ? videos[0].id : "vvpJVmcyYQY";
+  // Determine the featured video ID for the main section
+  const featuredVideo = videos.find(v => v.is_featured);
+  const podcastId = featuredVideo ? featuredVideo.id : (videos.length > 0 ? videos[0].id : "vvpJVmcyYQY");
 
   if (selectedPost) {
     const getEmbedUrl = (url: string) => {
@@ -209,7 +211,7 @@ const BlogPage: React.FC<BlogPageProps> = ({ onBack }) => {
               <div className="max-w-6xl mx-auto space-y-24">
                 <div className="bg-white rounded-[3.5rem] overflow-hidden shadow-2xl border border-[#e0d5c7]/30">
                   <div className="grid grid-cols-1 lg:grid-cols-2">
-                    <div className="relative aspect-video lg:aspect-square group cursor-pointer" onClick={() => setShowVideoModal(podcastId)}>
+                    <div className="relative aspect-video lg:aspect-square group cursor-pointer" onClick={() => setShowVideoModal(featuredVideo || videos[0] || { id: "vvpJVmcyYQY", title: "Dra. Marília Almeida", thumbnail: "" })}>
                       <img
                         src={`https://img.youtube.com/vi/${podcastId}/maxresdefault.jpg`}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
@@ -229,7 +231,7 @@ const BlogPage: React.FC<BlogPageProps> = ({ onBack }) => {
                       <h2 className="text-3xl md:text-5xl font-black text-gray-900 uppercase tracking-tighter leading-none mb-8">Podcast & Entrevistas</h2>
                       <p className="text-gray-500 font-light leading-relaxed mb-10 text-lg">Assista às participações especiais da Dra. Marília em canais de saúde e bem-estar, onde ela compartilha sua visão sobre longevidade e equilíbrio hormonal.</p>
                       <button
-                        onClick={() => setShowVideoModal(podcastId)}
+                        onClick={() => setShowVideoModal(featuredVideo || videos[0] || { id: "vvpJVmcyYQY", title: "Dra. Marília Almeida", thumbnail: "" })}
                         className="bg-[#833c4e] text-white px-10 py-5 rounded-full font-black uppercase tracking-widest text-[11px] hover:bg-[#6D2437] transition-all flex items-center justify-center space-x-3 shadow-xl"
                       >
                         <Youtube size={20} />

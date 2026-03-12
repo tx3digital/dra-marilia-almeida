@@ -25,6 +25,7 @@ export interface YouTubeVideo {
   title: string;
   thumbnail: string;
   type?: 'video' | 'shorts';
+  is_featured?: boolean;
 }
 
 export interface SocialHighlight {

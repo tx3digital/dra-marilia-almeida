@@ -4,7 +4,7 @@ import { BlogPost, YouTubeVideo, SocialHighlight } from '../types';
 import { BLOG_POSTS as INITIAL_POSTS, YOUTUBE_VIDEOS as INITIAL_VIDEOS, SOCIAL_HIGHLIGHTS as INITIAL_SOCIAL } from '../constants';
 import {
   Plus, Trash2, Edit3, Save, ArrowLeft, Image as ImageIcon,
-  LayoutDashboard, FileText, Youtube, Search, Link as LinkIcon, Instagram, Music2, Upload, Loader2, Sparkles
+  LayoutDashboard, FileText, Youtube, Search, Link as LinkIcon, Instagram, Music2, Upload, Loader2, Sparkles, Star
 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 
@@ -191,6 +191,34 @@ const AdminCMS: React.FC<AdminCMSProps> = ({ onBack }) => {
     if (url.length === 11) return { id: url, type: 'video' };
 
     return null;
+  };
+
+  const toggleFeatured = async (videoId: string) => {
+    if (!supabase) return;
+
+    // First, unset any other featured video
+    const { error: resetError } = await supabase
+      .from('youtube_videos')
+      .update({ is_featured: false })
+      .neq('id', videoId);
+
+    if (resetError) {
+      console.error("Erro ao resetar destaques", resetError);
+      return;
+    }
+
+    // Then, set the current one as featured
+    const currentIsFeatured = videos.find(v => v.id === videoId)?.is_featured;
+    const { error: updateError } = await supabase
+      .from('youtube_videos')
+      .update({ is_featured: !currentIsFeatured })
+      .eq('id', videoId);
+
+    if (!updateError) {
+      loadData();
+    } else {
+      console.error("Erro ao alternar destaque", updateError);
+    }
   };
 
   const handleCreateVideo = () => {
@@ -632,6 +660,13 @@ const AdminCMS: React.FC<AdminCMSProps> = ({ onBack }) => {
                       </td>
                       <td className="px-8 py-6 text-right">
                         <div className="flex items-center justify-end space-x-3">
+                          <button
+                            onClick={() => toggleFeatured(video.id)}
+                            className={`p-2 transition-colors ${video.is_featured ? 'text-yellow-500 hover:text-yellow-600' : 'text-[#a89b92] hover:text-[#833c4e]'}`}
+                            title={video.is_featured ? "Remover do destaque" : "Definir como destaque"}
+                          >
+                            <Star size={18} fill={video.is_featured ? "currentColor" : "none"} />
+                          </button>
                           <button onClick={() => handleEditVideo(video)} className="p-2 text-[#a89b92] hover:text-[#833c4e] transition-colors"><Edit3 size={18} /></button>
                           <button onClick={() => deleteVideo(video.id)} className="p-2 text-[#a89b92] hover:text-red-500 transition-colors"><Trash2 size={18} /></button>
                         </div>
