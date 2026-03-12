@@ -17,7 +17,7 @@ const BlogPage: React.FC<BlogPageProps> = ({ onBack }) => {
 
   const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
   const [activeTab, setActiveTab] = useState<'Artigos' | 'Podcast' | 'Social'>('Artigos');
-  const [showVideoModal, setShowVideoModal] = useState<string | null>(null);
+  const [showVideoModal, setShowVideoModal] = useState<YouTubeVideo | null>(null);
 
   useEffect(() => {
     loadData();
@@ -247,7 +247,7 @@ const BlogPage: React.FC<BlogPageProps> = ({ onBack }) => {
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {videos.map((video) => (
-                      <div key={video.id} className="group cursor-pointer" onClick={() => setShowVideoModal(video.id)}>
+                      <div key={video.id} className="group cursor-pointer" onClick={() => setShowVideoModal(video)}>
                         <div className="relative aspect-video rounded-3xl overflow-hidden mb-4 shadow-lg border border-[#e0d5c7]/10">
                           <img src={video.thumbnail} alt={video.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                           <div className="absolute inset-0 bg-black/20 group-hover:bg-[#833c4e]/30 transition-all flex items-center justify-center">
@@ -335,8 +335,8 @@ const BlogPage: React.FC<BlogPageProps> = ({ onBack }) => {
       {showVideoModal && (
         <div className="fixed inset-0 z-[200] bg-black/98 flex items-center justify-center p-4 md:p-8 animate-in fade-in duration-300">
           <button className="absolute top-8 right-8 text-white p-2 z-[210] hover:rotate-90 transition-transform" onClick={() => setShowVideoModal(null)}><X size={40} /></button>
-          <div className="w-full max-w-5xl aspect-video bg-black rounded-[2rem] overflow-hidden shadow-2xl border border-white/10 relative">
-            <iframe className="w-full h-full" src={`https://www.youtube.com/embed/${showVideoModal}?autoplay=1`} frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
+          <div className={`w-full ${showVideoModal.type === 'shorts' ? 'max-w-[400px] aspect-[9/16]' : 'max-w-5xl aspect-video'} bg-black rounded-[2rem] overflow-hidden shadow-2xl border border-white/10 relative`}>
+            <iframe className="w-full h-full" src={`https://www.youtube.com/embed/${showVideoModal.id}?autoplay=1`} frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
           </div>
         </div>
       )}

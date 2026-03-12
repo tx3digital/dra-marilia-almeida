@@ -173,11 +173,24 @@ const AdminCMS: React.FC<AdminCMSProps> = ({ onBack }) => {
     if (!error) setSocials(socials.filter(s => s.id !== id));
   };
 
-  const extractYoutubeId = (url: string) => {
+  const extractYoutubeInfo = (url: string): { id: string, type: 'video' | 'shorts' } | null => {
     if (!url) return null;
+
+    // Handle Shorts
+    if (url.includes('/shorts/')) {
+      const parts = url.split('/shorts/');
+      const id = parts[1]?.split(/[?#&]/)[0];
+      if (id && id.length === 11) return { id, type: 'shorts' };
+    }
+
     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
     const match = url.match(regExp);
-    return (match && match[2].length === 11) ? match[2] : null;
+    const id = (match && match[2].length === 11) ? match[2] : null;
+
+    if (id) return { id, type: 'video' };
+    if (url.length === 11) return { id: url, type: 'video' };
+
+    return null;
   };
 
   const handleCreateVideo = () => {
@@ -194,13 +207,15 @@ const AdminCMS: React.FC<AdminCMSProps> = ({ onBack }) => {
 
   const handleSaveVideo = async (e: React.FormEvent) => {
     e.preventDefault();
-    const videoId = extractYoutubeId(currentVideo.id || '') || currentVideo.id;
+    const info = extractYoutubeInfo(currentVideo.id || '');
+    const videoId = info?.id || currentVideo.id;
     if (!videoId) return;
 
     const videoData = {
       id: videoId,
       title: currentVideo.title || 'Vídeo sem título',
-      thumbnail: `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`
+      thumbnail: `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`,
+      type: info?.type || 'video'
     };
 
     const { error } = await supabase.from('youtube_videos').upsert(videoData);
@@ -608,7 +623,12 @@ const AdminCMS: React.FC<AdminCMSProps> = ({ onBack }) => {
                         <img src={video.thumbnail} className="w-20 h-12 rounded-lg object-cover border border-gray-100 shadow-sm" />
                       </td>
                       <td className="px-8 py-6">
-                        <div className="font-black text-gray-900 uppercase tracking-tight text-sm">{video.title}</div>
+                        <div className="flex items-center space-x-3">
+                          <div className="font-black text-gray-900 uppercase tracking-tight text-sm">{video.title}</div>
+                          {video.type === 'shorts' && (
+                            <span className="bg-red-50 text-red-500 px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-widest border border-red-100">Shorts</span>
+                          )}
+                        </div>
                       </td>
                       <td className="px-8 py-6 text-right">
                         <div className="flex items-center justify-end space-x-3">
