@@ -68,7 +68,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 <div className="p-2.5 bg-white/5 rounded-xl text-[#833c4e] group-hover:bg-[#833c4e]/20 transition-all">
                   <Mail size={20} />
                 </div>
-                <span className="group-hover:text-white transition-colors tracking-tight font-medium">contato@dramariliaalmeida.med.br</span>
+                <span className="group-hover:text-white transition-colors tracking-tight font-medium break-all">contato@dramariliaalmeida.med.br</span>
               </div>
             </div>
           </div>

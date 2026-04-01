@@ -30,13 +30,13 @@ const AtendimentoSection: React.FC<AtendimentoSectionProps> = ({ onAgendar }) =>
               </div>
               <h3 className="text-4xl font-extrabold text-gray-900 mb-8 tracking-tight uppercase">Presencial</h3>
               <p className="text-gray-600 mb-12 leading-relaxed font-light text-refined">
-                Infraestrutura moderna e tecnologia b.IA para uma análise minuciosa da sua composição corporal e metabolismo.
+                Infraestrutura moderna e tecnologia b.ia para uma análise minuciosa da sua composição corporal e metabolismo.
               </p>
 
               <ul className="space-y-6 mb-12">
                 {[
                   { icon: Clock, text: 'Consultas exclusivas de 60 minutos' },
-                  { icon: ShieldCheck, text: 'Avaliação b.IA incluída' },
+                  { icon: ShieldCheck, text: 'Avaliação b.ia incluída' },
                   { icon: MapPin, text: 'Ambiente seguro e privativo' },
                   { icon: Clock, text: 'Suporte exclusivo via WhatsApp' },
                 ].map((item, idx) => (

@@ -1,11 +1,24 @@
 
 import React from 'react';
 import { Star, TrendingUp, Mic2 } from 'lucide-react';
+import { CONTACT_INFO } from '../constants';
 
 const MediaSection: React.FC = () => {
   const mediaStats = [
-    { icon: TrendingUp, value: 'Milhões', label: 'de visualizações mensais', color: 'text-[#ee2a7b]' },
-    { icon: Mic2, value: 'Podcast', label: 'Participações Especiais', color: 'text-[#a89b92]' },
+    {
+      icon: TrendingUp,
+      value: 'Milhões',
+      label: 'de visualizações mensais',
+      color: 'text-[#ee2a7b]',
+      link: CONTACT_INFO.instagramUrl
+    },
+    {
+      icon: Mic2,
+      value: 'Podcast',
+      label: 'Participações Especiais',
+      color: 'text-[#a89b92]',
+      link: CONTACT_INFO.youtubeUrl
+    },
   ];
 
   return (
@@ -25,13 +38,19 @@ const MediaSection: React.FC = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20 max-w-4xl mx-auto">
           {mediaStats.map((stat, i) => (
-            <div key={i} className="bg-[#f7f5f3] p-10 rounded-[2rem] border border-[#e0d5c7]/30 flex flex-col items-center text-center group hover:bg-[#833c4e] transition-all duration-500">
+            <a
+              key={i}
+              href={stat.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-[#f7f5f3] p-10 rounded-[2rem] border border-[#e0d5c7]/30 flex flex-col items-center text-center group hover:bg-[#833c4e] transition-all duration-500"
+            >
               <div className={`mb-6 p-4 bg-white rounded-2xl shadow-sm ${stat.color} group-hover:bg-white/10 group-hover:text-white transition-colors`}>
                 <stat.icon size={32} />
               </div>
               <div className="text-3xl md:text-4xl font-black text-gray-900 mb-2 group-hover:text-white transition-colors tracking-tighter uppercase leading-none">{stat.value}</div>
               <div className="text-[10px] font-black uppercase tracking-widest text-[#a89b92] group-hover:text-white/70 transition-colors">{stat.label}</div>
-            </div>
+            </a>
           ))}
         </div>
 

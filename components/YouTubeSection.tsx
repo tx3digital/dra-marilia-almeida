@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { YOUTUBE_VIDEOS as INITIAL_VIDEOS } from '../constants';
+import { CONTACT_INFO, YOUTUBE_VIDEOS as INITIAL_VIDEOS } from '../constants';
 import { YouTubeVideo } from '../types';
 import { Youtube, Play, X } from 'lucide-react';
 import { supabase } from '../lib/supabase';
@@ -73,7 +73,7 @@ const YouTubeSection: React.FC = () => {
             </p>
           </div>
           <a
-            href="https://youtube.com/@dramariliaalmeida"
+            href={CONTACT_INFO.youtubeUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="bg-[#FF0000] hover:bg-[#CC0000] text-white px-10 py-5 rounded-full text-[11px] font-black uppercase tracking-[0.3em] transition-all shadow-lg flex items-center space-x-3"

@@ -15,15 +15,15 @@ export const COLORS = {
 export const CONTACT_INFO = {
   crm: '176471',
   rqe: '93002',
-  address: 'Rua Pais de Araújo, 29 - Itaim Bibi, SP',
-  phone: '(11) 91219-5500',
-  whatsappUrl: 'https://wa.me/5511912195500',
-  instagram: 'dramariliaalmeida',
-  instagramUrl: 'https://instagram.com/dramariliaalmeida',
-  youtube: 'dramariliaalmeida',
-  youtubeUrl: 'https://youtube.com/@dramariliaalmeida',
-  tiktok: 'dramariliaalmeida',
-  tiktokUrl: 'https://www.tiktok.com/@dramariliaalmeida'
+  address: 'Rua Pais de Araújo, 29 - Itaim Bibi, São Paulo - SP',
+  phone: '(11) 91219-5580',
+  whatsappUrl: 'https://wa.me/5511912195580',
+  instagram: 'marilia.endocrino',
+  instagramUrl: 'https://www.instagram.com/marilia.endocrino/',
+  youtube: 'endocrinologia.marilia',
+  youtubeUrl: 'https://www.youtube.com/@endocrinologia.marilia',
+  tiktok: 'marilia.endocrino',
+  tiktokUrl: 'https://www.tiktok.com/@marilia.endocrino'
 };
 
 export const BLOG_POSTS: BlogPost[] = [

@@ -40,11 +40,11 @@ const AtendimentoPage: React.FC<AtendimentoPageProps> = ({ onBack, onAgendar }) 
               <p className="text-gray-500 text-lg font-light leading-relaxed mb-10 text-refined">
                 Nossa clínica foi projetada para oferecer um ambiente de acolhimento e alta tecnologia. Durante a consulta presencial, realizamos a análise de bioimpedância profissional para um diagnóstico metabólico exato.
               </p>
-              
+
               <ul className="space-y-5 mb-12">
                 {[
                   { icon: Clock, text: 'Atendimento exclusivo e sem pressa' },
-                  { icon: ShieldCheck, text: 'Exame de Bioimpedância InBody incluído' },
+                  { icon: ShieldCheck, text: 'Exame de Bioimpedância b.ia incluído' },
                   { icon: Info, text: 'Localização de fácil acesso e estacionamento' },
                 ].map((item, idx) => (
                   <li key={idx} className="flex items-start space-x-4">
@@ -54,7 +54,7 @@ const AtendimentoPage: React.FC<AtendimentoPageProps> = ({ onBack, onAgendar }) 
                 ))}
               </ul>
             </div>
-            
+
             <button onClick={onAgendar} className="w-full bg-[#833c4e] text-white py-6 rounded-3xl font-black uppercase tracking-[0.3em] text-[10px] hover:bg-[#6D2437] transition-all shadow-xl shadow-[#833c4e]/20">
               Agendar Presencial
             </button>
@@ -75,7 +75,7 @@ const AtendimentoPage: React.FC<AtendimentoPageProps> = ({ onBack, onAgendar }) 
               <p className="text-white/80 text-lg font-light leading-relaxed mb-10 text-refined">
                 A mesma atenção e profundidade clínica onde quer que você esteja. Utilizamos plataformas seguras e criptografadas para garantir a sua privacidade e o melhor acompanhamento hormonal à distância.
               </p>
-              
+
               <ul className="space-y-5 mb-12">
                 {[
                   { icon: Clock, text: 'Consultas por videoconferência em alta definição' },
@@ -93,7 +93,7 @@ const AtendimentoPage: React.FC<AtendimentoPageProps> = ({ onBack, onAgendar }) 
             <button onClick={onAgendar} className="w-full bg-white text-[#708075] py-6 rounded-3xl font-black uppercase tracking-[0.3em] text-[10px] hover:bg-[#f7f5f3] transition-all shadow-2xl relative z-10">
               Agendar Online
             </button>
-            
+
             <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full -mr-32 -mt-32 blur-3xl"></div>
           </div>
         </div>
@@ -103,7 +103,7 @@ const AtendimentoPage: React.FC<AtendimentoPageProps> = ({ onBack, onAgendar }) 
           <div className="lg:col-span-1 p-12 md:p-16 flex flex-col justify-center">
             <span className="text-[#833c4e] font-black uppercase tracking-[0.4em] text-[10px] mb-4 block">Onde Estamos</span>
             <h3 className="text-3xl font-black text-gray-900 uppercase tracking-tighter mb-8 leading-none">Localização</h3>
-            
+
             <div className="space-y-10">
               <div className="flex items-start space-x-5">
                 <MapPin className="text-[#833c4e] shrink-0" size={24} />
@@ -119,16 +119,16 @@ const AtendimentoPage: React.FC<AtendimentoPageProps> = ({ onBack, onAgendar }) 
               </div>
               <div className="flex items-start space-x-5">
                 <Mail className="text-[#833c4e] shrink-0" size={24} />
-                <p className="text-gray-600 font-medium uppercase text-[11px] tracking-widest">
+                <p className="text-gray-600 font-medium uppercase text-[11px] tracking-widest break-all">
                   contato@dramariliaalmeida.med.br
                 </p>
               </div>
             </div>
 
             <div className="mt-12 pt-12 border-t border-[#e0d5c7]/30">
-              <a 
-                href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(CONTACT_INFO.address)}`} 
-                target="_blank" 
+              <a
+                href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(CONTACT_INFO.address)}`}
+                target="_blank"
                 className="flex items-center space-x-3 text-[#833c4e] font-black uppercase tracking-widest text-[10px] group"
               >
                 <div className="p-3 bg-[#833c4e] text-white rounded-full group-hover:scale-110 transition-transform">
@@ -138,16 +138,16 @@ const AtendimentoPage: React.FC<AtendimentoPageProps> = ({ onBack, onAgendar }) 
               </a>
             </div>
           </div>
-          
+
           <div className="lg:col-span-2 min-h-[450px] relative">
             {/* Real Google Maps Embed */}
-            <iframe 
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3656.632296531952!2d-46.66258812375924!3d-23.581665671987515!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce59f13c6a4959%3A0xc6e987157836798e!2sAv.%20Rep%C3%BAblica%20do%20L%C3%ADbano%2C%202155%20-%20Moema%2C%20S%C3%A3o%20Paulo%20-%20SP%2C%2004501-001!5e0!3m2!1spt-BR!2sbr!4v1715785000000!5m2!1spt-BR!2sbr" 
-              width="100%" 
-              height="100%" 
-              style={{ border: 0 }} 
-              allowFullScreen={true} 
-              loading="lazy" 
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3656.634354563!2d-46.674996!3d-23.581232!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce5757d590a797%3A0xc3f637f5d0f65b8e!2sR.%20Pais%20de%20Ara%C3%BAjo%2C%2029%20-%20Itaim%20Bibi%2C%20S%C3%A3o%20Paulo%20-%20SP%2C%2004531-090!5e0!3m2!1spt-BR!2sbr!4v1715785000000!5m2!1spt-BR!2sbr"
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen={true}
+              loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
               className="absolute inset-0"
             ></iframe>
